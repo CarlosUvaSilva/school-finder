@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_19_103753) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_104252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,5 +26,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_19_103753) do
     t.string "city", null: false
     t.string "phone_number", null: false
     t.string "email"
+    t.float "latitude"
+    t.float "longitude"
+    t.index ["latitude", "longitude"], name: "index_schools_on_latitude_and_longitude"
   end
 end
