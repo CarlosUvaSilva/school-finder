@@ -1,0 +1,10 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.body-container {
+  padding: 10px 20px;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
