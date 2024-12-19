@@ -1,2 +1,3 @@
 <h5><%= school.name %></h5>
 <p><%= school.address %></p>
+<p><%= school.education_levels.pluck(:name).to_sentence %></p>

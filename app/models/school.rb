@@ -16,7 +16,11 @@ class School < ApplicationRecord
     school.city_changed?
   }
 
+  has_many :school_education_levels, dependent: :destroy
+  has_many :education_levels, through: :school_education_levels
+
   def address
-    "#{street_name} #{street_number} #{apartment_number}, #{zip_code}, #{parish}, #{city}"
+    street = [ street_name, street_number, apartment_number, parish ].compact.join(" ")
+    "#{street}, #{zip_code}, #{city}"
   end
 end

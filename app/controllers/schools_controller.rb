@@ -1,7 +1,7 @@
 class SchoolsController < ApplicationController
   def index
-    @schools = School.all
-    @markers = @schools.geocoded.map do |school|
+    @schools = School.includes(:education_levels).geocoded
+    @markers = @schools.map do |school|
       {
         lat: school.latitude,
         lng: school.longitude,

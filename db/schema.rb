@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_19_104252) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_122437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "education_levels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+  end
+
+  create_table "school_education_levels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "school_id", null: false
+    t.bigint "education_level_id", null: false
+    t.index ["education_level_id"], name: "index_school_education_levels_on_education_level_id"
+    t.index ["school_id", "education_level_id"], name: "idx_on_school_id_education_level_id_0d1d07b814", unique: true
+    t.index ["school_id"], name: "index_school_education_levels_on_school_id"
+  end
 
   create_table "schools", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -30,4 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_19_104252) do
     t.float "longitude"
     t.index ["latitude", "longitude"], name: "index_schools_on_latitude_and_longitude"
   end
+
+  add_foreign_key "school_education_levels", "education_levels"
+  add_foreign_key "school_education_levels", "schools"
 end

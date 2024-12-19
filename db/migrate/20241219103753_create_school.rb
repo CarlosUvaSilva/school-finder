@@ -5,7 +5,7 @@ class CreateSchool < ActiveRecord::Migration[8.0]
 
       t.string :name, null: false
       t.string :street_name, null: false
-      t.integer :street_number, null: false
+      t.string :street_number, null: false
       t.string :apartment_number
       t.string :zip_code, null: false
       t.string :parish, null: false
