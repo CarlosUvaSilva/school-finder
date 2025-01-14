@@ -1,6 +1,13 @@
 class SchoolsController < ApplicationController
   def index
-    @schools = School.includes(:education_levels).geocoded
+    @schools = School.all.includes(:education_levels)
+    if params[:search].present?
+      search_query = params[:search]
+      @schools = @schools.search(search_query).geocoded
+    else
+      @schools = @schools.geocoded
+    end
+
     @markers = @schools.map do |school|
       {
         lat: school.latitude,

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_19_122437) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_14_100905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "unaccent"
 
   create_table "education_levels", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -44,7 +45,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_19_122437) do
     t.string "email"
     t.float "latitude"
     t.float "longitude"
+    t.tsvector "tsv_accented"
     t.index ["latitude", "longitude"], name: "index_schools_on_latitude_and_longitude"
+    t.index ["tsv_accented"], name: "index_schools_on_tsv_accented", using: :gin
   end
 
   add_foreign_key "school_education_levels", "education_levels"

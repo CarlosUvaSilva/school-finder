@@ -1,4 +1,6 @@
 class School < ApplicationRecord
+  include PgSearch::Model
+
   validates :name, presence: true
   validates :street_name, presence: true
   validates :street_number, presence: true
@@ -6,6 +8,9 @@ class School < ApplicationRecord
   validates :parish, presence: true
   validates :city, presence: true
   validates :phone_number, presence: true
+
+  has_many :school_education_levels, dependent: :destroy
+  has_many :education_levels, through: :school_education_levels
 
   geocoded_by :address
   after_validation :geocode, if: ->(school) {
@@ -16,8 +21,17 @@ class School < ApplicationRecord
     school.city_changed?
   }
 
-  has_many :school_education_levels, dependent: :destroy
-  has_many :education_levels, through: :school_education_levels
+  pg_search_scope :search,
+                  ignoring: :accents,
+                  against: :search_vector,
+                  using: {
+                    tsearch: {
+                      dictionary: "simple",
+                      any_word: true,
+                      prefix: true,
+                      tsvector_column: "tsv_accented"
+                    }
+                  }
 
   def address
     street = [ street_name, street_number, apartment_number, parish ].compact.join(" ")
