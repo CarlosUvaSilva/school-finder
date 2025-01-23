@@ -1,31 +1,5 @@
 <h1>Schools</h1>
 
-
-<form action="/schools" method="get" class="search-form">
-  <label for="ingredients">Enter search:</label><br>
-
-  <!-- Pre-fill the input field with the value from `params[:search]` -->
-  <input type="text" name="search" placeholder="Escola Infantil" value="<%= params[:search] %>">
-
-  <div class="button-group">
-    <button type="submit" class="submit-button">Search</button>
-    <!-- Reset Button -->
-    <a href="/schools" class="reset-button">Reset</a>
-  </div>
-</form>
-
-<% if @schools.any? %>
-  <ul>
-    <% @schools.each do |school| %>
-      <li><%= school.name %></li>
-    <% end %>
-  </ul>
-
-  <div style="width: 100%; height: 600px;"
-    data-controller="map"
-    data-map-markers-value="<%= @markers.to_json %>"
-    data-map-api-key-value="<%= Rails.application.credentials.dig(:mapbox_api_key) %>">
-  </div>
-<% else %>
-  <p>No schools found</p>
-<% end %>
+<%= render partial: "search_form" %>
+<%= render partial: "schools_list", locals: { schools: @schools } %>
+<%= render partial: "map", locals: { markers: @markers } %>

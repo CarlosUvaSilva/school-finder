@@ -1,7 +1,8 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons';
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
 
-@import  url("https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css");
+@import url("https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css");
+@import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/mapbox-gl-draw.css");
 
 @import "resets";
 @import "components/index";
