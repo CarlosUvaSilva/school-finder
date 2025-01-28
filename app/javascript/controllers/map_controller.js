@@ -36,12 +36,17 @@ export default class extends Controller {
   }
 
   #updateArea(e) {
-    console.log("E: ", e);
-    console.log("THIS: ", this);
     var data = this.draw.getAll();
-    console.log("DATA: ", data.features[0].geometry.coordinates);
+    console.log("DATA: ", data);
+    const features = data.features[0];
+    console.log("FEATURES: ", features);
+    let url = `/schools`
 
-    const url = "/schools?search=fraldas"
+    if (!!features) {
+      const coordinates = JSON.stringify(features?.geometry.coordinates[0]);
+      url += `?polygon=${encodeURIComponent(coordinates)}`
+    }
+
     fetch(url, {
       headers: {
         "Accept": "application/json"
@@ -49,8 +54,16 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then(data => {
-        console.log("Data received from server:", data);
+        console.log(data);
         this.updateMarkers(data.markers);
+
+        const frame = document.querySelector("turbo-frame#schools");
+        frame.innerHTML = "";
+        data.schools.forEach(school => {
+          const li = document.createElement("li");
+          li.textContent = school.name;
+          frame.appendChild(li);
+        });
       })
       .catch(error => {
         console.error("Error fetching data:", error);

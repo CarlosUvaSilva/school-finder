@@ -1,5 +1,5 @@
 <% if schools.any? %>
-  <ul class="schools-list" data-search-target="results">
+  <ul id="schools_list" class="schools-list" data-search-target="results">
     <% schools.each do |school| %>
       <li><%= school.name %></li>
     <% end %>

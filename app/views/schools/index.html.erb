@@ -1,5 +1,9 @@
 <h1>Schools</h1>
 
 <%= render partial: "search_form" %>
-<%= render partial: "schools_list", locals: { schools: @schools } %>
-<%= render partial: "map", locals: { markers: @markers } %>
+
+<%= turbo_frame_tag "schools" do %>
+  <%= render partial: 'schools/schools_list', locals: { schools: @schools } %>
+<% end %>
+
+<%= render partial: 'schools/map', locals: { markers: @markers } %>

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_14_100905) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_23_135403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "postgis"
   enable_extension "unaccent"
 
   create_table "education_levels", force: :cascade do |t|
@@ -36,7 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_100905) do
     t.datetime "updated_at", null: false
     t.string "name", null: false
     t.string "street_name", null: false
-    t.integer "street_number", null: false
+    t.string "street_number", null: false
     t.string "apartment_number"
     t.string "zip_code", null: false
     t.string "parish", null: false
@@ -46,6 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_100905) do
     t.float "latitude"
     t.float "longitude"
     t.tsvector "tsv_accented"
+    t.geography "g_coords", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.index ["g_coords"], name: "index_schools_on_g_coords", using: :gist
     t.index ["latitude", "longitude"], name: "index_schools_on_latitude_and_longitude"
     t.index ["tsv_accented"], name: "index_schools_on_tsv_accented", using: :gin
   end

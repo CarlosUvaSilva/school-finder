@@ -1,5 +1,6 @@
 class School < ApplicationRecord
   include PgSearch::Model
+  include Postgis
 
   validates :name, presence: true
   validates :street_name, presence: true
@@ -36,5 +37,11 @@ class School < ApplicationRecord
   def address
     street = [ street_name, street_number, apartment_number, parish ].compact.join(" ")
     "#{street}, #{zip_code}, #{city}"
+  end
+
+  def geocode
+    super
+    return unless latitude && longitude
+    self.g_coords = GeoGis.point(longitude, latitude)
   end
 end
